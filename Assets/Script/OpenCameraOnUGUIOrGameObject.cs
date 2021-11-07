@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class OpenCameraOnUGUIOrGameObject : MonoBehaviour
 {
-    public RawImage rawImage;//相机渲染的UI
-    public GameObject quad;//相机渲染的GameObject
+    public RawImage rawImage;//Camera rendering UI
+    public GameObject quad;//Camera render GameObject
     private WebCamTexture webCamTexture;
 
     void Start()
@@ -15,7 +15,7 @@ public class OpenCameraOnUGUIOrGameObject : MonoBehaviour
     }
 
     /// <summary>
-    /// 打开摄像机
+    /// Turn on the camera
     /// </summary>
     public void ToOpenCamera()
     {
@@ -30,7 +30,7 @@ public class OpenCameraOnUGUIOrGameObject : MonoBehaviour
             maxl = Screen.height;
         }
 
-        // 申请摄像头权限
+        // Applying for Camera Permission
         yield return Application.RequestUserAuthorization(UserAuthorization.WebCam);
         if (Application.HasUserAuthorization(UserAuthorization.WebCam))
         {
@@ -39,7 +39,7 @@ public class OpenCameraOnUGUIOrGameObject : MonoBehaviour
                 webCamTexture.Stop();
             }
 
-            //打开渲染图
+            //Open the render
             if (rawImage != null)
             {
                 rawImage.gameObject.SetActive(true);
@@ -49,15 +49,15 @@ public class OpenCameraOnUGUIOrGameObject : MonoBehaviour
                 quad.gameObject.SetActive(true);
             }
 
-            // 监控第一次授权，是否获得到设备（因为很可能第一次授权了，但是获得不到设备，这里这样避免）
-            // 多次 都没有获得设备，可能就是真没有摄像头，结束获取 camera
+            // Monitor the first authorization, whether the device was obtained (because it is likely that the first authorization, but did not obtain the device, this is avoided)
+            // If the device is not obtained for many times, it may be true that there is no camera
             int i = 0;
             while (WebCamTexture.devices.Length <= 0 && 1 < 300)
             {
                 yield return new WaitForEndOfFrame();
                 i++;
             }
-            WebCamDevice[] devices = WebCamTexture.devices;//获取可用设备
+            WebCamDevice[] devices = WebCamTexture.devices;//Obtaining available Devices
             if (WebCamTexture.devices.Length <= 0)
             {
                 Debug.LogError("没有摄像头设备，请检查");
@@ -70,7 +70,7 @@ public class OpenCameraOnUGUIOrGameObject : MonoBehaviour
                     wrapMode = TextureWrapMode.Repeat
                 };
 
-                // 渲染到 UI 或者 游戏物体上
+                // Render to the UI or game object
                 if (rawImage != null)
                 {
                     rawImage.texture = webCamTexture;
@@ -94,7 +94,7 @@ public class OpenCameraOnUGUIOrGameObject : MonoBehaviour
 
     private void OnApplicationPause(bool pause)
     {
-        // 应用暂停的时候暂停camera，继续的时候继续使用
+        // Pause the camera while the app is paused, and continue using it when it continues
         if (webCamTexture != null)
         {
             if (pause)
