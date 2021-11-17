@@ -1,6 +1,16 @@
 using System.Collections;
 using UnityEngine;
 
+/*
+ *  This is a statement to declare the reference materials in this file
+ *  the technique of the cide in this file is screen post-processing technique
+ *  the code reference the book "Unity Shader 入门精要"
+ *		publishing house: Posts and Telecommunications Press
+ *		author: Lele FENG
+ */
+
+
+
 public class Toonify2D : MonoBehaviour
 {
 	public Shader gaussianBlurShader;   // declare a shader 

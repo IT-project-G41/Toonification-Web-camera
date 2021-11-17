@@ -1,5 +1,18 @@
 Shader "Custom/Toonifu2D"
 {
+
+/*
+This is a statement to declare the reference materials in this file
+the code and algorithm in this file reference material include:
+1. Book: Unity Shader 入门精要, author: Lele FENG
+2. Paper: Toonify: Cartoon Photo Effect Application,  author: Kevin Dade, Department of Electrical Engineering, Stanford University
+*/
+
+
+
+
+
+
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)

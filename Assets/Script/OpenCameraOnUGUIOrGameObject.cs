@@ -3,6 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ * This is a statement to declare the reference materials in this file
+ * The code in this file references and uses an open source code
+ * https://blog.csdn.net/u014361280/article/details/107374795
+ * 
+ * 
+ */
+
+
+
+
+
+
 public class OpenCameraOnUGUIOrGameObject : MonoBehaviour
 {
     public RawImage rawImage;//Camera rendering UI
@@ -60,7 +73,7 @@ public class OpenCameraOnUGUIOrGameObject : MonoBehaviour
             WebCamDevice[] devices = WebCamTexture.devices;//Obtaining available Devices
             if (WebCamTexture.devices.Length <= 0)
             {
-                Debug.LogError("没有摄像头设备，请检查");
+                Debug.LogError("No camera device is found");
             }
             else
             {
@@ -88,7 +101,7 @@ public class OpenCameraOnUGUIOrGameObject : MonoBehaviour
         }
         else
         {
-            Debug.LogError("未获得读取摄像头权限");
+            Debug.LogError("The camera permission is not obtained");
         }
     }
 
