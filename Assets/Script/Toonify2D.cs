@@ -71,13 +71,15 @@ public class Toonify2D : MonoBehaviour
 		if (material != null)
 		{
 
-			//Graphics.Blit(src, dest, material);
-
+			
 			material.SetFloat("_Brightness", brightness);
 			material.SetFloat("_Satruation", saturation);
 			material.SetFloat("_Constart", contrast);
 
+			//Graphics.Blit(src, dest, material);
 
+
+			
 			int rtW = src.width;
 			int rtH = src.height;
 
@@ -110,9 +112,10 @@ public class Toonify2D : MonoBehaviour
 			}
 			Graphics.Blit(buffer0, dest);
 			RenderTexture.ReleaseTemporary(buffer0);
-		}
-		else
-		{
+			
+
+
+		}else{
 			Graphics.Blit(src, dest);
 		}
 	}

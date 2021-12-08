@@ -34,7 +34,7 @@ the code and algorithm in this file reference material include:
         half _Brightness;
         half _Satruation;
         half _Constart;
-
+        
 
 
 
@@ -91,25 +91,59 @@ the code and algorithm in this file reference material include:
                 return temp;
         }
 
+        // color mapping function
+        fixed3 ColorMapping(fixed3 color){
+            const fixed ColorMap[256] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 
+                                     0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 0.0941, 
+                                     0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 0.1882, 
+                                     0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 0.2824, 
+                                     0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 0.3765, 
+                                     0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 0.4706, 
+                                     0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 0.5647, 
+                                     0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 0.6588, 
+                                     0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 0.7529, 
+                                     0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 0.8471, 
+                                     0.9412, 0.9412, 0.9412, 0.9412, 0.9412, 0.9412, 0.9412, 0.9412, 0.9412, 0.9412, 0.9412, 0.9412, 0.9412, 0.9412, 0.9412, 0.9412};
+
+
+            
+            fixed red = color.r;
+            fixed green = color.g;
+            fixed blue = color.b;
+
+
+            int red_index = int(floor(red * 255));
+            int green_index = int(floor(green * 255));
+            int blue_index = int(floor(blue * 255));
+
+            fixed3 new_color = fixed3(ColorMap[red_index], ColorMap[green_index], ColorMap[blue_index]);
+            
+            return new_color;
+        }
+
 
         // quantize color function
         fixed3 QuantizeColors(fixed3 color){
             return floor(color * 255 * 0.04166667) * 24 * 0.00392157;
+            //return ColorMapping(color);
         }
 
 
+       
+
         // final color function
         fixed3 ColorCalculation(fixed3 color){
-            fixed3 finalColor = QuantizeColors(color);
+            fixed3 finalColor = ColorMapping(color);
             
             // Brightness
-            finalColor = finalColor * _Brightness;
+            //finalColor = finalColor * _Brightness;
+            finalColor = finalColor * 1.5;
 
             // Saturation
-            finalColor = lerp(lumiance(color), finalColor, _Satruation);
+            //finalColor = lerp(lumiance(color), finalColor, _Satruation);
 
             // Constart
-            finalColor = lerp(fixed3(0.5, 0.5, 0.5), finalColor, _Constart);
+            //finalColor = lerp(fixed3(0.5, 0.5, 0.5), finalColor, _Constart);
             
             return finalColor;
         }
@@ -195,26 +229,38 @@ the code and algorithm in this file reference material include:
         fixed4 fragEdges(v2f f) : SV_Target{
                 
             fixed3 midColor = medianFilter(f.uv);
+            fixed3 color = tex2D(_MainTex, f.uv).rgb;
             
             half edge = Sobel(f.uv);
 
             fixed4 edgeColor = fixed4(0, 0, 0, 1);
-            fixed4 backgroundColor = fixed4(midColor, 1);
+            fixed4 backgroundColor = fixed4(color, 1);
 
             fixed4 onlyEdgeColor = lerp(edgeColor, backgroundColor, edge);
 
             return onlyEdgeColor;
+
+            /*
+            fixed alpha = onlyEdgeColor.a;
+            fixed3 finalColor = ColorCalculation(onlyEdgeColor.rgb);
+
+            return fixed4(finalColor.rgb, alpha);
+            */
         }
 
         fixed4 fragColor(v2f f) : SV_Target{
             fixed3 BF_color = BilateralFliter(f.uv);
 
             fixed3 midColor = medianFilter(f.uv);
+            //fixed3 midColor = medianFilter(BF_color);
+
+
             //fixed3 quantize_color = QuantizeColors(midColor * BF_color);
             
             fixed3 final_color = ColorCalculation(midColor * BF_color);
 
             return fixed4(final_color, 1);
+
         }
 
 
@@ -233,11 +279,11 @@ the code and algorithm in this file reference material include:
             CGPROGRAM
             #pragma vertex vert  
 		    #pragma fragment fragEdges 
-          
+            //#pragma enable_d3d11_debug_symbols
 
             ENDCG
         }
-
+        
 
         
         Pass{
@@ -247,6 +293,7 @@ the code and algorithm in this file reference material include:
             CGPROGRAM
             #pragma vertex vert  
 		    #pragma fragment fragColor 
+            //#pragma enable_d3d11_debug_symbols
             ENDCG
 
         }
